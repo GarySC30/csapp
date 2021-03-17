@@ -3,9 +3,11 @@
  .global _start   
  _start:  
      nop    
-     movl $4, %eax  
-     mov $1, %bx  
-     movb $0xff65, %dh
+     #movl $4, %eax  
+     #mov $1, %bx  
+     movb $0xffffff65, %dh
+     movw $0xffffff65, %dx
+     movl $0xffffff65, %edx
      movl $13, %edx  
     
    

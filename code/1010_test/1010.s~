@@ -4,9 +4,9 @@
  _start:      
      	nop
      	movl $0x08048056,%ebx
-	movl $0x0802402b,%ecx
-	movl (,%ecx,0x1),%eax
-	movl $0x0802402c,%ecx
+	movl $2,%ecx
+	movw (%ebx,%ecx,0x2),%ax
+	movl $0x0402402c,%ecx
 	movw (,%ecx,0x2),%ax
 	#movw (%ecx,0x2),%ax
 	
