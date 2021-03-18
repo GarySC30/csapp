@@ -5,7 +5,7 @@
      	nop
      	movl $0x08048054,%ecx
 	movl %ecx,%eax
-	movl (%ecx),%eax
+	movl 0x3(%ecx),%eax
 	
 
      	movl $1, %eax  
