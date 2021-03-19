@@ -7,8 +7,8 @@
  _start:      
      	nop
 
-     	xorl %eax,%eax 	//置0
-	movl $0,%edi	//置0
+     	xorl %eax,%eax 	#置0
+	movl $0,%edi	#置0
 readvalue:
 	movl values(,%edi,4),%ebx
 	addl %ebx,%eax
