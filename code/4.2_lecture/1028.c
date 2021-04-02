@@ -23,14 +23,14 @@ int main()
 //	pf=pf+1;
 //	short* ps;
 //	ps=&i;
-//	ps=ps+1;
+//	ps=ps+1;   // short长度为2，故内存里地址+2
 //	char *ph;
 //	ph=&i;
-//	ph=ph+1;
+//	ph=ph+1;  // +1
 //	ps=ph;
 //	*ps=0x0102;
 //	int iarr[3];
-//	float * piarr[3];
+//	float * piarr[3]; // 指向float的指针 的数组，包含三个指针
 //	int ** pi;
 //	piarr[0]=&i;
 //	piarr[1]=piarr[0]+1;
