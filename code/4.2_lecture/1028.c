@@ -16,9 +16,9 @@ int main()
 	float* pf;	//定义了一个变量pf
 //	pf= malloc(4);   //内存泄漏
 //	*pf=15213.0f;
-	pf=&i;
+	pf=&i;         // pf pi指向同一内存
 //	*pf=15213.0f;
-//	*pf=(int)15213;
+//	*pf=(int)15213;  // 隐式转换，将整数转换为了浮点数
 //	*pi=(int)15213;
 //	pf=pf+1;
 //	short* ps;
