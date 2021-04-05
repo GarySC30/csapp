@@ -36,8 +36,10 @@ void naive_rotate(int dim, pixel *src, pixel *dst)
     int i, j;
 
     for (i = 0; i < dim; i++)
-	for (j = 0; j < dim; j++)
-	    dst[RIDX(dim-1-j, i, dim)] = src[RIDX(i, j, dim)];
+	for (j = 0; j < dim; j++) {
+        int tmp = dim -1 -j;
+	    dst[RIDX(tmp, i, dim)] = src[RIDX(i, j, dim)];
+    }
 }
 
 /* 
