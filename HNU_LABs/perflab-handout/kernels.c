@@ -93,11 +93,11 @@ void rotate3(int dim, pixel *src, pixel *dst)
 char rotate_descr4[] = "rotate4: Current working version";
 void rotate4(int dim, pixel *src, pixel *dst) 
 {
-    int i,j,i1,j1; // 将三种方法组合，得到效果更佳的优化
-    for(i1=0;i1<dim;i1+=4) {
-	    for(j1=0;j1<dim;j1+=4) {
-            for(i=i1;i<i1+4;i++) {
-                for(j=j1;j<j1+4;j++) {
+    int i,j,ii,jj; // 将三种方法组合，得到效果更佳的优化
+    for(ii=0;ii<dim;ii+=4) {
+	    for(jj=0;jj<dim;jj+=4) {
+            for(i=ii;i<ii+4;i++) {
+                for(j=jj;j<jj+4;j++) {
                     int tmp = dim-1-j;
                     int RIDX1 = tmp*dim + i;
                     int RIDX2 = i*dim + j;
