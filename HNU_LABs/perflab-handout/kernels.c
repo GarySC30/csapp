@@ -116,7 +116,10 @@ void register_rotate_functions()
 {
     add_rotate_function(&naive_rotate, naive_rotate_descr);   
     add_rotate_function(&rotate, rotate_descr);
-    add_rotate_function(&rotate1, rotate_descr1);   
+    add_rotate_function(&rotate1, rotate_descr1);
+    add_rotate_function(&rotate2, rotate_descr2);
+    add_rotate_function(&rotate3, rotate_descr3);   
+    add_rotate_function(&rotate4, rotate_descr4);
     /* ... Register additional test functions here */
 }
 

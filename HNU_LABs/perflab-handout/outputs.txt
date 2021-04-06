@@ -1,0 +1,55 @@
+Teamname: YURUcamp
+Member 1: Gary
+Email 1: garygaogsc@outlook.com
+
+Rotate: Version = naive_rotate: Naive baseline implementation:
+Dim             64      128     256     512     1024    Mean
+Your CPEs       1.4     1.9     3.6     7.0     6.7
+Baseline CPEs   14.7    40.1    46.4    65.9    94.5
+Speedup         10.5    21.2    12.9    9.4     14.0    13.0
+
+Rotate: Version = rotate: Current working version:
+Dim             64      128     256     512     1024    Mean
+Your CPEs       1.4     2.0     3.6     6.9     6.8
+Baseline CPEs   14.7    40.1    46.4    65.9    94.5
+Speedup         10.5    20.0    12.7    9.5     14.0    12.9
+
+Rotate: Version = rotate1: Current working version:
+Dim             64      128     256     512     1024    Mean
+Your CPEs       1.4     1.9     3.8     7.0     6.6
+Baseline CPEs   14.7    40.1    46.4    65.9    94.5
+Speedup         10.8    20.7    12.3    9.4     14.4    13.0
+
+Rotate: Version = rotate2: Current working version:
+Dim             64      128     256     512     1024    Mean
+Your CPEs       1.4     1.9     3.6     6.9     7.1
+Baseline CPEs   14.7    40.1    46.4    65.9    94.5
+Speedup         10.5    21.0    12.8    9.6     13.4    12.9
+
+Rotate: Version = rotate3: Current working version:
+Dim             64      128     256     512     1024    Mean
+Your CPEs       1.7     1.9     2.7     2.8     3.8
+Baseline CPEs   14.7    40.1    46.4    65.9    94.5
+Speedup         8.4     21.5    17.1    23.6    25.0    17.9
+
+Rotate: Version = rotate4: Current working version:
+Dim             64      128     256     512     1024    Mean
+Your CPEs       1.8     2.1     2.2     2.6     3.8
+Baseline CPEs   14.7    40.1    46.4    65.9    94.5
+Speedup         8.4     19.4    20.7    25.8    24.9    18.5
+
+Smooth: Version = smooth: Current working version:
+Dim             32      64      128     256     512     Mean
+Your CPEs       29.1    24.5    28.7    28.5    29.9
+Baseline CPEs   695.0   698.0   702.0   717.0   722.0
+Speedup         23.9    28.5    24.5    25.2    24.1    25.2
+
+Smooth: Version = naive_smooth: Naive baseline implementation:
+Dim             32      64      128     256     512     Mean
+Your CPEs       29.1    28.8    28.7    29.0    29.0
+Baseline CPEs   695.0   698.0   702.0   717.0   722.0
+Speedup         23.9    24.3    24.5    24.7    24.9    24.4
+
+Summary of Your Best Scores:
+  Rotate: 18.5 (rotate4: Current working version)
+  Smooth: 25.2 (smooth: Current working version)
