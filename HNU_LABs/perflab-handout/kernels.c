@@ -10,10 +10,10 @@
  * Please fill in the following team struct 
  */
 team_t team = {
-    "bovik",              /* Team name */
+    "YURUcamp",              /* Team name */
 
-    "Harry Q. Bovik",     /* First member full name */
-    "bovik@nowhere.edu",  /* First member email address */
+    "Gary",     /* First member full name */
+    "garygaogsc@outlook.com",  /* First member email address */
 
     "",                   /* Second member full name (leave blank if none) */
     ""                    /* Second member email addr (leave blank if none) */
@@ -50,6 +50,18 @@ void rotate(int dim, pixel *src, pixel *dst)
     naive_rotate(dim, src, dst);
 }
 
+char rotate_descr1[] = "rotate1: Current working version";
+void rotate1(int dim, pixel *src, pixel *dst) 
+{
+    int i, j;
+
+    for (i = 0; i < dim; i++)
+	for (j = 0; j < dim; j++) {
+        int tmp = dim-1-j;
+	    dst[RIDX(tmp, i, dim)] = src[RIDX(i, j, dim)];
+    }
+}
+
 /*********************************************************************
  * register_rotate_functions - Register all of your different versions
  *     of the rotate kernel with the driver by calling the
@@ -61,7 +73,8 @@ void rotate(int dim, pixel *src, pixel *dst)
 void register_rotate_functions() 
 {
     add_rotate_function(&naive_rotate, naive_rotate_descr);   
-    add_rotate_function(&rotate, rotate_descr);   
+    add_rotate_function(&rotate, rotate_descr);
+    add_rotate_function(&rotate1, rotate_descr1);   
     /* ... Register additional test functions here */
 }
 
