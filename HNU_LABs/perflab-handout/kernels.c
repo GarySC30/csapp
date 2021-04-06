@@ -36,10 +36,8 @@ void naive_rotate(int dim, pixel *src, pixel *dst)
     int i, j;
 
     for (i = 0; i < dim; i++)
-	for (j = 0; j < dim; j++) {
-        int tmp = dim -1 -j;
-	    dst[RIDX(tmp, i, dim)] = src[RIDX(i, j, dim)];
-    }
+	for (j = 0; j < dim; j++)
+	    dst[RIDX(dim-1-j, i, dim)] = src[RIDX(i, j, dim)];
 }
 
 /* 
@@ -49,7 +47,13 @@ void naive_rotate(int dim, pixel *src, pixel *dst)
 char rotate_descr[] = "rotate: Current working version";
 void rotate(int dim, pixel *src, pixel *dst) 
 {
-    naive_rotate(dim, src, dst);
+    int i, j;
+
+    for (i = 0; i < dim; i++)
+	for (j = 0; j < dim; j++) {
+        int tmp = dim -1 -j;  // 将dim-i-1修改为独立变量 消除循环的低效率
+	    dst[RIDX(tmp, i, dim)] = src[RIDX(i, j, dim)];
+    }
 }
 
 /*********************************************************************
