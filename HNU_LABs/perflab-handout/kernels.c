@@ -57,7 +57,7 @@ void rotate1(int dim, pixel *src, pixel *dst)
 
     for (i = 0; i < dim; i++)
 	for (j = 0; j < dim; j++) {
-        int tmp = dim-1-j;   // 提前计算dim-1-j，消除循环低效率
+        int tmp = dim-1-j;   // 定义变量提前计算dim-1-j，消除循环低效率
 	    dst[RIDX(tmp, i, dim)] = src[RIDX(i, j, dim)];
     }
 }
@@ -66,10 +66,10 @@ char rotate_descr2[] = "rotate2: Current working version";
 void rotate2(int dim, pixel *src, pixel *dst) 
 {
     // #define RIDX(i,j,n) ((i)*(n)+(j))
-    int i, j;  // 减少循环调用
+    int i, j;  // 减少函数调用
     for (i = 0; i < dim; i++)
 	for (j = 0; j < dim; j++) {
-        int RIDX1 = (dim-1-j)*dim + i;
+        int RIDX1 = (dim-1-j)*dim + i; // 根据第五章的讲解，减少调用可以提高效率
         int RIDX2 = i*dim + j;
 	    dst[RIDX1] = src[RIDX2];
     }
@@ -78,18 +78,22 @@ void rotate2(int dim, pixel *src, pixel *dst)
 char rotate_descr3[] = "rotate3: Current working version";
 void rotate3(int dim, pixel *src, pixel *dst) 
 {
-    int i,j,i1,j1;//将程序分成4*4的小块
-    for(i1=0;i1<dim;i1+=4)
-	    for(j1=0;j1<dim;j1+=4)//这里进行划分
-            for(i=i1;i<i1+4;i++)
-                for(j=j1;j<j1+4;j++) //对每一小块进行转换赋值操作
+    int i,j,ii,jj; // 将运行过程分成4*4的小块
+    for(ii=0;ii<dim;ii+=4) {
+	    for(jj=0;jj<dim;jj+=4) { // 通过添加循环数量进行分块
+            for(i=ii;i<ii+4;i++) {
+                for(j=jj;j<jj+4;j++) { // 对每个小块进行原来的操作
                     dst[RIDX(dim-1-j,i,dim)]=src[RIDX(i,j,dim)];
+                }
+            }
+        }
+    }
 }
 
 char rotate_descr4[] = "rotate4: Current working version";
 void rotate4(int dim, pixel *src, pixel *dst) 
 {
-    int i,j,i1,j1; // 将三种方法组合
+    int i,j,i1,j1; // 将三种方法组合，得到效果更佳的优化
     for(i1=0;i1<dim;i1+=4) {
 	    for(j1=0;j1<dim;j1+=4) {
             for(i=i1;i<i1+4;i++) {
