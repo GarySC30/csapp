@@ -10,10 +10,10 @@
  * Please fill in the following team struct 
  */
 team_t team = {
-    "YURUCamp",              /* Team name */
+    "bovik",              /* Team name */
 
-    "Gary Gao",     /* First member full name */
-    "garygaogsc@outlook.com",  /* First member email address */
+    "Harry Q. Bovik",     /* First member full name */
+    "bovik@nowhere.edu",  /* First member email address */
 
     "",                   /* Second member full name (leave blank if none) */
     ""                    /* Second member email addr (leave blank if none) */
@@ -44,28 +44,10 @@ void naive_rotate(int dim, pixel *src, pixel *dst)
  * rotate - Your current working version of rotate
  * IMPORTANT: This is the version you will be graded on
  */
-char rotate_descr_1[] = "rotate1: Current working version";
-void rotate1(int dim, pixel *src, pixel *dst) 
+char rotate_descr[] = "rotate: Current working version";
+void rotate(int dim, pixel *src, pixel *dst) 
 {
-    int i, j;
-
-    for (i = 0; i < dim; i++)
-	for (j = 0; j < dim; j++) {
-        int tmp = dim -1 -j;  // 将dim-i-1修改为独立变量 消除循环的低效率
-	    dst[RIDX(tmp, i, dim)] = src[RIDX(i, j, dim)];
-    }
-}
-
-char rotate_descr_2[] = "rotate2: Current working version";
-void rotate2(int dim, pixel *src, pixel *dst) 
-{
-    int i, j;
-
-    for (i = 0; i < dim; i++)
-	for (j = 0; j < dim; j++) {
-        int tmp = dim -1 -j;  // 将dim-i-1修改为独立变量 消除循环的低效率
-	    dst[RIDX(tmp, i, dim)] = src[RIDX(i, j, dim)];
-    }
+    naive_rotate(dim, src, dst);
 }
 
 /*********************************************************************
@@ -79,8 +61,7 @@ void rotate2(int dim, pixel *src, pixel *dst)
 void register_rotate_functions() 
 {
     add_rotate_function(&naive_rotate, naive_rotate_descr);   
-    add_rotate_function(&rotate1, rotate_descr_1);
-    add_rotate_function(&rotate2, rotate_descr_2);   
+    add_rotate_function(&rotate, rotate_descr);   
     /* ... Register additional test functions here */
 }
 
