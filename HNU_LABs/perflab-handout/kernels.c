@@ -75,39 +75,6 @@ void rotate2(int dim, pixel *src, pixel *dst)
     }
 }
 
-char rotate_descr3[] = "rotate3: Current working version";
-void rotate3(int dim, pixel *src, pixel *dst) 
-{
-    int i,j,ii,jj; // 将运行过程分成4*4的小块
-    for(ii=0;ii<dim;ii+=4) {
-	    for(jj=0;jj<dim;jj+=4) { // 通过添加循环数量进行分块
-            for(i=ii;i<ii+4;i++) {
-                for(j=jj;j<jj+4;j++) { // 对每个小块进行原来的操作
-                    dst[RIDX(dim-1-j,i,dim)]=src[RIDX(i,j,dim)];
-                }
-            }
-        }
-    }
-}
-
-char rotate_descr4[] = "rotate4: Current working version";
-void rotate4(int dim, pixel *src, pixel *dst) 
-{
-    int i,j,ii,jj; // 将三种方法组合，得到效果更佳的优化
-    for(ii=0;ii<dim;ii+=4) {
-	    for(jj=0;jj<dim;jj+=4) {
-            for(i=ii;i<ii+4;i++) {
-                for(j=jj;j<jj+4;j++) {
-                    int tmp = dim-1-j;
-                    int RIDX1 = tmp*dim + i;
-                    int RIDX2 = i*dim + j;
-	                dst[RIDX1] = src[RIDX2];
-                }
-            }
-        }
-    }
-}
-
 /*********************************************************************
  * register_rotate_functions - Register all of your different versions
  *     of the rotate kernel with the driver by calling the
@@ -122,8 +89,6 @@ void register_rotate_functions()
     add_rotate_function(&rotate, rotate_descr);
     add_rotate_function(&rotate1, rotate_descr1);
     add_rotate_function(&rotate2, rotate_descr2);
-    add_rotate_function(&rotate3, rotate_descr3);   
-    add_rotate_function(&rotate4, rotate_descr4);
     /* ... Register additional test functions here */
 }
 
