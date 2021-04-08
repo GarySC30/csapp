@@ -139,7 +139,7 @@ NOTES:
  *   Rating: 1
  */
 int bitAnd(int x, int y) {
-  return ~((~x) | (~y));
+  return ~((~x) | (~y)); // 德摩律
 }
 /* 
  * getByte - Extract byte n from word x
@@ -150,15 +150,7 @@ int bitAnd(int x, int y) {
  *   Rating: 2
  */
 int getByte(int x, int n) {
-
-
-
-
-
-
-
-  return 2;
-
+  return (x >> (n << 3)) & 0xff;  // n左移3位是为了转换为16进制
 }
 /* 
  * logicalShift - shift x to the right by n, using a logical shift
