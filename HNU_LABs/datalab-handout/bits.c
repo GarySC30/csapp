@@ -151,6 +151,7 @@ int bitAnd(int x, int y) {
  */
 int getByte(int x, int n) {
   return (x >> (n << 3)) & 0xff;  // n左移3位是为了转换为16进制
+  // 一个字节是8位，需要右移8*n位
 }
 /* 
  * logicalShift - shift x to the right by n, using a logical shift
@@ -161,7 +162,10 @@ int getByte(int x, int n) {
  *   Rating: 3 
  */
 int logicalShift(int x, int n) {
-  return 2;
+  // 构造掩码 左n为0，右n为1
+  int k = (~(1 << 31))>>(n+(-1));
+  x = x >> n;
+  return x&k;
 }
 /*
  * bitCount - returns count of number of 1's in word
