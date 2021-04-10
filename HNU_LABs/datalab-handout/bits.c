@@ -163,7 +163,8 @@ int getByte(int x, int n) {
  */
 int logicalShift(int x, int n) {
   // 构造掩码 左n为0，右n为1
-  int k = (~(1 << 31))>>(n+(-1));
+  int k = ((~(1 << 31))>>n)<<1;
+  k |= 1;  // 按位或 末尾置1
   x = x >> n;
   return x&k;
 }
@@ -175,7 +176,8 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  return 2;
+  int cmp = 0x1; int count = 0;
+  count += cmp&x; count+=1;
 }
 /* 
  * bang - Compute !x without using !
