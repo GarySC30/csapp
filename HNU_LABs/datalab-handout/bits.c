@@ -197,7 +197,7 @@ int bang(int x) {
  */
 int tmin(void) {
   // 1 000,0000,0 000,0000,0000,0000,0000,0000
-  return 0x8 << 28;
+  return 0x01 << 31;
 }
 /* 
  * fitsBits - return 1 if x can be represented as an 
