@@ -176,8 +176,7 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  int cmp = 0x1; int count = 0;
-  count += cmp&x; count+=1;
+  return 2;
 }
 /* 
  * bang - Compute !x without using !
@@ -187,7 +186,8 @@ int bitCount(int x) {
  *   Rating: 4 
  */
 int bang(int x) {
-  return 2;
+  // 取反+1后只有0x00的最高位不且为0，特判可得答案
+  return (~((~x+1)|x)>>31) & 0x1;  // 与0x1相与是为了保留最低位
 }
 /* 
  * tmin - return minimum two's complement integer 
