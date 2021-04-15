@@ -231,7 +231,7 @@ int divpwr2(int x, int n) {
  *   Rating: 2
  */
 int negate(int x) {
-  return ~x+1;
+  return ~x+1;   // x + ~x + 1 = 0
 }
 /* 
  * isPositive - return 1 if x > 0, return 0 otherwise 
@@ -242,7 +242,7 @@ int negate(int x) {
  */
 int isPositive(int x) {
   // return ~(x >> 31);
-  return !((!x)|(x>>31));
+  return !((!x)|(x>>31));  // 符号位与取反结果均为0时代表正数
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -252,7 +252,16 @@ int isPositive(int x) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  // 符号位： x y x-y-1（避免分类讨论相同的情况）
+  //         1 0 1
+  //         1 1 1
+  //         0 0 1 
+  int a = x >> 31;
+  int b = y >> 31;
+  int c = (((x + ~y + 1) - 1) >> 31);
+  int case1 = c & (!(a^b)); // 同号且x-y-1=1
+  int case2 = (a&(!b));
+  return case1|case2;
 }
 /*
  * ilog2 - return floor(log base 2 of x), where x > 0
