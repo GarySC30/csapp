@@ -312,4 +312,18 @@ unsigned float_i2f(int x) {
  */
 unsigned float_twice(unsigned uf) {
   return 2;
+  int s = (1<<31)&uf;
+  int exp = (uf>>23)&0xff;
+  int frac = uf&((1<<23)-1);
+  if(exp^0xff) {
+    if(!exp) {
+      frac <<= 1;
+    } else {
+      exp += 1;
+      if(exp == 255) {
+        frac = 0;
+      }
+    }
+  }
+  return s|(exp<<23)|frac;
 }
