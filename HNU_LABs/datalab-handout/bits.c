@@ -176,7 +176,14 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  return 2;
+  // 设置参考链 0x01010101 = 00000001 00000001 00000001 00000001
+  // 将32位数分四组，每组8位，同时判断4组里面含的1数
+  int jud = 0x01 | (0x01 << 8) | (0x01 << 16) | (0x01 << 24);
+  int tmp = (jud & x) + (jud & (x>>1)) + (jud & (x>>2)) + (jud & (x>>3))
+            + (jud & (x>>4)) + (jud & (x>>5)) + (jud & (x>>6)) + (jud & (x>>7));
+  int count = (tmp & 0xff) + ((tmp>>8) & 0xff) + ((tmp>>16) & 0xff)
+             + ((tmp>>24) & 0xff);
+  return count & 0xff;
 }
 /* 
  * bang - Compute !x without using !
