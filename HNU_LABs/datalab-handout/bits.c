@@ -209,7 +209,7 @@ int tmin(void) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
-  int t = x<<(32+1+~n)>>(32+1+~n);
+  int t = x<<(32+1+~n)>>(32+1+~n); // 符号拓展的逆过程
   return !(t^x);
 }
 /* 
@@ -311,19 +311,21 @@ unsigned float_i2f(int x) {
  *   Rating: 4
  */
 unsigned float_twice(unsigned uf) {
-  return 2;
-  int s = (1<<31)&uf;
-  int exp = (uf>>23)&0xff;
-  int frac = uf&((1<<23)-1);
-  if(exp^0xff) {
-    if(!exp) {
-      frac <<= 1;
-    } else {
-      exp += 1;
-      if(exp == 255) {
+  // 单精度   s    exp     frac
+  // 位数     1    8       23
+  int s = (1 << 31) & uf; // 除符号位其余置0
+  int exp = (uf >> 23) & 0xff; // 取阶码位 （8位）
+  int frac = uf & ((1 << 23) - 1); // 右数1-23位为1，其余为0，保留frac
+  if(exp ^ 0xff) { // 不全为1
+    if(!exp) // 全为0，E为固定值，由于frac在此情况下前加的是0. 
+      // 故*2即可达成目的
+      frac <<= 1; 
+    else {
+      exp += 1; // +1即可
+      if(exp == 255) // 如果全为1，构成NAN，置0，返回原值
         frac = 0;
-      }
     }
   }
-  return s|(exp<<23)|frac;
+  exp <<= 23; // exp回到原来位置
+  return s|exp|frac; // 拼接得到答案
 }
