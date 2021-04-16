@@ -309,7 +309,13 @@ int ilog2(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
- return 2;
+ // 修改符号位，如果是NAN不能修改
+ // 判断NAN：s=0 exp==1 frac!=0
+ // &((1<<23)-1) : 低22位全为1，高位置0
+ // (uf >> 23) & 0xff) ^ 0xff : 判断exp是否为1，若为1返回0
+ if(!(uf & ((1<<23)-1)) || ((uf >> 23) & 0xff) ^ 0xff); // 不能同时满足时
+  uf = (1 << 31) ^ uf;  // 不为NAN则修改符号位
+ return uf;
 }
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
