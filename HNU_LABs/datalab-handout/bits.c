@@ -271,7 +271,8 @@ int isLessOrEqual(int x, int y) {
   //         0 0 1 
   int a = x >> 31;
   int b = y >> 31;
-  int c = (((x + ~y + 1) - 1) >> 31);
+  // int c = (((x + ~y + 1) - 1) >> 31);
+  int c = ((x + ~y) >> 31);
   int case1 = c & (!(a^b)); // 同号且x-y-1=1
   int case2 = (a&(!b));
   return case1|case2;
