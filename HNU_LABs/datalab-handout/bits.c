@@ -284,26 +284,18 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4
  */
 int ilog2(int x) {
-	int sign, shift1, shift2, shift3, shift4, shift5;
-  sign = !!(x >> 16); //若x表示的二进制数左边16位没有1，sign为0,有1则sign为1 
-  shift1 = sign << 4; //0^4 or 2^4
-	x >>= shift1;       //若sign为1，丢掉右边16位，因为1必定出现在左边16位中 
-	
-	sign = !!(x >> 8);  //若x表示的二进制数左边8位没有1，sign为0,有1则sign为1 
-	shift2 = sign << 3; //0^3 or 2^3
-	x >>= shift2;       //若sign为1，丢掉右边8位，因为1必定出现在左边8位中 
-	
-	sign = !!(x >> 4);  //若x表示的二进制数左边4位没有1，sign为0,有1则sign为1 
-	shift3 = sign << 2; //0^2 or 2^2
-	x >>= shift3;       //若sign为1，丢掉右边4位，因为1必定出现在左边4位中 
-	
-	sign = !!(x >> 2);  //若x表示的二进制数左边2位没有1，sign为0,有1则sign为1 
-	shift4 = sign << 1; //0^1 or 2^1
-	x >>= shift4;       //若sign为1，丢掉右边2位，因为1必定出现在左边2位中 
-  
-	sign = !!(x >> 1);  //若x表示的二进制数左边1位没有1，sign为0,有1则sign为1 
-	shift5 = sign; 
-	return shift1 + shift2 + shift3 + shift4 + shift5; 
+  // 只用找到最高位的1，故采用二分的思想，从大范围到小范围查找。
+	int t = (!!(x >> 16)) << 4;
+  // 高16位判0，若为1左移四位，将范围减半。
+  t += ((!!(x >> (8 + t))) << 3);
+  // 根据t的值为0或1判断“低16中的高8位”或“高16中的高8位”，将范围减半。
+  t += ((!!(x >> (4 + t))) << 2);
+  // 根据t的值为0或1判断“低8中的高4位”或“高8中的高4位”，将范围减半。
+  t += ((!!(x >> (2 + t))) << 1);
+  // 根据t的值为0或1判断“低4中的高2位”或“高4中的高2位”，将范围减半。
+  t += (!!(x >> (1 + t)));
+  // 从2位中找出1
+  return t;
 }
 /* 
  * float_neg - Return bit-level equivalent of expression -f for
