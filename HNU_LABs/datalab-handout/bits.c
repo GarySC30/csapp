@@ -313,7 +313,7 @@ unsigned float_neg(unsigned uf) {
  // 判断NAN：s=0 exp==1 frac!=0
  // &((1<<23)-1) : 低22位全为1，高位置0
  // (uf >> 23) & 0xff) ^ 0xff : 判断exp是否为1，若为1返回0
- if(!(uf & ((1<<23)-1)) || ((uf >> 23) & 0xff) ^ 0xff); // 不能同时满足时
+ if(!(uf & ((1<<23)-1)) || ((uf >> 23) & 0xff) ^ 0xff) // 不能同时满足时
   uf = (1 << 31) ^ uf;  // 不为NAN则修改符号位
  return uf;
 }
