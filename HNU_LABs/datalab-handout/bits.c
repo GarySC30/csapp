@@ -228,7 +228,13 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
-    return 2;
+  // 由于计算机遵循向下取整而不是向0取整
+  // 故不能直接右移，负数的计算需要在结果+1
+  // 加上偏移量2^n-1（全1），保证当低n位为1时，在n+1位有进位
+  // 由于默认算术右移，故不需要考虑符号位的变化
+  int s = x >> 31;
+  int bias = s & ((1<<n) + (~0));
+  return (x + bias) >> n;
 }
 /* 
  * negate - return -x 
