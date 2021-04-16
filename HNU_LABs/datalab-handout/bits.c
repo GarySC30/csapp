@@ -327,7 +327,37 @@ unsigned float_neg(unsigned uf) {
  *   Rating: 4
  */
 unsigned float_i2f(int x) {
-  return 2;
+  // 单精度   s    exp     frac
+  // 位数     1    8       23
+  unsigned s = x&(1<<31);  // 符号位
+  // 阶码：除了符号位以外最高位的1所在的位置
+  // 尾数：最高位之后的所有数据都是尾数位
+  int i = 30; // 定义右移的位数，判断第31位
+  int exp = (x >> 31) ? 158 : 0;
+  // 如果为0x8000 0000则阶码位初始化为127+31=158。
+  // 如果为0x0000 0000则阶码初始化为0
+  int frac = 0;  // 初始化尾数
+  unsigned last;  // 记录franc后没被取到的位
+  int tmp1, tmp2 = (1 << 23) - 1; // tmp2的含义是franc位全为1
+  if(x << 1) { // 筛去0x8000 0000 和 0x0000 0000
+    if(x < 0)
+      x = -x; // 负数则取反
+    while(!((x >> i) & 1))
+      i--;   // 取到x最高位的1的位数停止
+    exp = i + 127;  // 得到取整数的阶码位
+    tmp1 = x << (31 - i); // x除了最高位1的其他位，全部移到最高位
+    frac = (tmp1 >> 8) & tmp2; // 取到取整前的尾数位
+    last = tmp1 & 0xff; // 没被franc取到的x的后面的位
+    frac += (last > 128) || ((frac&1) && (last == 128));
+    // 如果没被取到的位大于128(1000 0000)
+    // 或者franc的最低位为1并且last==1000 0000
+    if(frac >> 23) {  // franc取整后有进位
+      frac = frac & tmp2; // 保留其低23位
+      exp++; // 阶码位+1
+    }
+    exp <<= 23;
+    return s|exp|frac; // 拼接
+  }
 }
 /* 
  * float_twice - Return bit-level equivalent of expression 2*f for
