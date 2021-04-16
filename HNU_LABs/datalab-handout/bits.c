@@ -355,9 +355,9 @@ unsigned float_i2f(int x) {
       frac = frac & tmp2; // 保留其低23位
       exp++; // 阶码位+1
     }
-    exp <<= 23;
-    return s|exp|frac; // 拼接
   }
+  exp <<= 23;
+  return s|exp|frac; // 拼接
 }
 /* 
  * float_twice - Return bit-level equivalent of expression 2*f for
