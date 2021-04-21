@@ -10,6 +10,10 @@ void foo()
 int main()
 {
 	foo();
+	// int i = 5;
+	// int j = 6;
+	// j = j++;
+	// 请修改第8行达到跳过第16行指令的效果（汇编代码会给出）
 	printf("Print 1\n");
 	printf("Print 2\n");
 	printf("Print 3\n");
