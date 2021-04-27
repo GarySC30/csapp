@@ -50,7 +50,7 @@ void rotate(int dim, pixel *src, pixel *dst)
     naive_rotate(dim, src, dst);
 }
 
-char rotate_descr1[] = "rotate1: Current working version";
+char rotate_descr1[] = "rotate1: 消除循环低效率";
 void rotate1(int dim, pixel *src, pixel *dst) 
 {
     int i, j;
@@ -62,7 +62,7 @@ void rotate1(int dim, pixel *src, pixel *dst)
     }
 }
 
-char rotate_descr2[] = "rotate2: Current working version";
+char rotate_descr2[] = "rotate2: RIDX";
 void rotate2(int dim, pixel *src, pixel *dst) 
 {
     // #define RIDX(i,j,n) ((i)*(n)+(j))
@@ -75,7 +75,7 @@ void rotate2(int dim, pixel *src, pixel *dst)
     }
 }
 
-char rotate_descr3[] = "rotate3: Current working version";
+char rotate_descr3[] = "rotate3: 改进版的消除循环低效率";
 void rotate3(int dim, pixel *src, pixel *dst) 
 {
     int i, j, tmp2;
@@ -84,6 +84,21 @@ void rotate3(int dim, pixel *src, pixel *dst)
         tmp2 = tmp1-j;  // 在第一个循环提前计算，减少时间开销
 	    for (i = 0; i < dim; i++)
 	        dst[RIDX(tmp2, i, dim)] = src[RIDX(i, j, dim)]; // 替换为tmp2
+    }
+}
+
+char rotate_descr4[] = "rotate4: 分块操作";
+void rotate4(int dim, pixel *src, pixel *dst) 
+{
+    int i,j,ii,jj; // 将运行过程分成4*4的小块,充分利用L3缓存(32kb)
+    for(ii=0;ii<dim;ii+=32) {
+	    for(jj=0;jj<dim;jj+=32) { // 通过添加循环数量进行分块
+            for(i=ii;i<ii+32;i++) {
+                for(j=jj;j<jj+32;j++) { // 对每个小块进行原来的操作
+                    dst[RIDX(dim-1-j,i,dim)]=src[RIDX(i,j,dim)];
+                }
+            }
+        }
     }
 }
 
@@ -103,6 +118,7 @@ void register_rotate_functions()
     add_rotate_function(&rotate1, rotate_descr1);
     add_rotate_function(&rotate2, rotate_descr2);
     add_rotate_function(&rotate3, rotate_descr3);
+    add_rotate_function(&rotate4, rotate_descr4);
     /* ... Register additional test functions here */
 }
 
