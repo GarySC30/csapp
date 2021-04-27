@@ -102,6 +102,83 @@ void rotate4(int dim, pixel *src, pixel *dst)
     }
 }
 
+char rotate_descr5[] = "rotate5: 循环展开";
+void rotate5(int dim, pixel *src, pixel *dst){
+    int i,j,tmp1=dim*dim,tmp2=dim *31,tmp3=tmp1-dim,tmp4=tmp1+32,tmp5=dim+31;//定义中间变量
+    dst+=tmp3;  
+    for(i=0; i< dim; i+=32){         
+        for(j=0;j<dim;j++){//将for循环展开，并通过指针的形式实现对图形的翻转，以32为一个步长       
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;  
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;
+            dst++;src+=dim;
+            *dst=*src;                   
+            src++;
+            src-=tmp2;
+            dst-=tmp5;
+        }
+        src+=tmp2;
+        dst+=tmp4;
+    }         
+}
 
 /*********************************************************************
  * register_rotate_functions - Register all of your different versions
@@ -119,6 +196,7 @@ void register_rotate_functions()
     add_rotate_function(&rotate2, rotate_descr2);
     add_rotate_function(&rotate3, rotate_descr3);
     add_rotate_function(&rotate4, rotate_descr4);
+    add_rotate_function(&rotate5, rotate_descr5);
     /* ... Register additional test functions here */
 }
 
