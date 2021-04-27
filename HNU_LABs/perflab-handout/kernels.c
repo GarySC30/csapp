@@ -75,7 +75,7 @@ void rotate2(int dim, pixel *src, pixel *dst)
     }
 }
 
-char rotate_descr3[] = "naive_rotate: Naive baseline implementation";
+char rotate_descr3[] = "rotate3: Current working version";
 void rotate3(int dim, pixel *src, pixel *dst) 
 {
     int i, j, tmp2;
