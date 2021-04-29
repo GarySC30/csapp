@@ -78,12 +78,12 @@ void rotate2(int dim, pixel *src, pixel *dst)
 char rotate_descr3[] = "rotate3: 改进版的消除循环低效率";
 void rotate3(int dim, pixel *src, pixel *dst) 
 {
-    int i, j, tmp2;
-    int tmp1 = dim - 1;  // 事先定义变量tmp1, tmp2
+    int i, j, temp2;
+    int temp1 = dim - 1;  // 事先定义变量temp1, temp2
     for (j = 0; j < dim; j++) { // 交换i,j位置，旋转图片先后顺序不影响操作结果
-        tmp2 = tmp1-j;  // 在第一个循环提前计算，减少时间开销
+        temp2 = temp1-j;  // 在第一个循环提前计算，减少时间开销
 	    for (i = 0; i < dim; i++)
-	        dst[RIDX(tmp2, i, dim)] = src[RIDX(i, j, dim)]; // 替换为tmp2
+	        dst[RIDX(temp2, i, dim)] = src[RIDX(i, j, dim)]; // 替换为temp2
     }
 }
 
@@ -104,10 +104,12 @@ void rotate4(int dim, pixel *src, pixel *dst)
 
 char rotate_descr5[] = "rotate5: 循环展开";
 void rotate5(int dim, pixel *src, pixel *dst){
-    int i,j,tmp1=dim*dim,tmp2=dim *31,tmp3=tmp1-dim,tmp4=tmp1+32,tmp5=dim+31;//定义中间变量
-    dst+=tmp3;  
-    for(i=0; i< dim; i+=32){         
-        for(j=0;j<dim;j++){//将for循环展开，并通过指针的形式实现对图形的翻转，以32为一个步长       
+    int i, j;
+    int temp1= dim * dim, temp2=dim * 31, temp3 = temp1 - dim, 
+        temp4 = temp1 + 32, temp5 =dim + 31;
+    dst += temp3;  
+    for(i=0; i< dim; i+=32){   // 以32为步长对循环进行展开    
+        for(j=0;j<dim;j++){
             *dst=*src;
             dst++;src+=dim;
             *dst=*src;
@@ -172,11 +174,11 @@ void rotate5(int dim, pixel *src, pixel *dst){
             dst++;src+=dim;
             *dst=*src;                   
             src++;
-            src-=tmp2;
-            dst-=tmp5;
+            src-=temp2;
+            dst-=temp5;
         }
-        src+=tmp2;
-        dst+=tmp4;
+        src+=temp2;
+        dst+=temp4;
     }         
 }
 
@@ -345,7 +347,6 @@ void smooth1(int dim, pixel *src, pixel *dst)
         dst[RIDX(dim-1, j, dim)].green = (unsigned short)((rowsum[dim-2][j].green + rowsum[dim-1][j].green)/snum);
     }
 }
-
 
 /********************************************************************* 
  * register_smooth_functions - Register all of your different versions
