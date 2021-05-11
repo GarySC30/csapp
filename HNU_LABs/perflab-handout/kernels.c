@@ -348,6 +348,81 @@ void smooth1(int dim, pixel *src, pixel *dst)
     }
 }
 
+char smooth_descr2[] = "smooth2: 消除不必要的存储器引用";
+void smooth2(int dim, pixel *src, pixel *dst) 
+{
+    int i, j;
+    for(i = 0; i < dim; ++i) {
+        for(j = 0; j < dim; ++j) { // 取消调用avg函数,在函数里实现
+            int ii, jj;
+            pixel_sum sum;
+            pixel current_pixel;
+
+            // initialize_pixel_sum(&sum); 取消调用initialize_pixel_sum函数
+            sum.red = sum.green = sum.blue = 0;
+            sum.num = 0;
+            int ii1 = max(i-1, 0), ii2 = min(i+1, dim-1), // 提前计算
+                jj1 = max(j-1, 0), jj2 = min(j+1, dim-1); // 减少不必要的寄存器调用
+            for(ii = ii1; ii <= ii2; ii++) 
+                for(jj = jj1; jj <= jj2; jj++) {
+                    // accumulate_sum(&sum, src[RIDX(ii, jj, dim)]);
+                    pixel p = src[RIDX(ii, jj, dim)];
+                    sum.red += (int) p.red;
+                    sum.green += (int) p.green;
+                    sum.blue += (int) p.blue;
+                    sum.num++;
+                }
+            // assign_sum_to_pixel(&current_pixel, sum); 取消调用assign_sum_to_pixel函数
+            current_pixel.red = (unsigned short) (sum.red/sum.num);
+            current_pixel.green = (unsigned short) (sum.green/sum.num);
+            current_pixel.blue = (unsigned short) (sum.blue/sum.num);
+
+            dst[RIDX(i, j, dim)] = current_pixel;
+        }
+    }
+}
+
+char smooth_descr3[] = "smooth3: 循环展开";
+void smooth3(int dim, pixel *src, pixel *dst) 
+{
+    int i, j;
+    for (i = 0; i < dim; i++)
+	    for (j = 0; j < dim; j = j + 32) {//for循环展开
+            dst[RIDX(i, j, dim)] = avg(dim, i, j, src);
+            dst[RIDX(i, j+1, dim)] = avg(dim, i, j+1, src);
+            dst[RIDX(i, j+2, dim)] = avg(dim, i, j+2, src);
+            dst[RIDX(i, j+3, dim)] = avg(dim, i, j+3, src);
+            dst[RIDX(i, j+4, dim)] = avg(dim, i, j+4, src);
+            dst[RIDX(i, j+5, dim)] = avg(dim, i, j+5, src);
+            dst[RIDX(i, j+6, dim)] = avg(dim, i, j+6, src);
+            dst[RIDX(i, j+7, dim)] = avg(dim, i, j+7, src);
+            dst[RIDX(i, j+8, dim)] = avg(dim, i, j+8, src);
+            dst[RIDX(i, j+9, dim)] = avg(dim, i, j+9, src);
+            dst[RIDX(i, j+10, dim)] = avg(dim, i, j+10, src);
+            dst[RIDX(i, j+11, dim)] = avg(dim, i, j+11, src);
+            dst[RIDX(i, j+12, dim)] = avg(dim, i, j+12, src);
+            dst[RIDX(i, j+13, dim)] = avg(dim, i, j+13, src);
+            dst[RIDX(i, j+14, dim)] = avg(dim, i, j+14, src);
+            dst[RIDX(i, j+15, dim)] = avg(dim, i, j+15, src);
+            dst[RIDX(i, j+16, dim)] = avg(dim, i, j+16, src);
+            dst[RIDX(i, j+17, dim)] = avg(dim, i, j+17, src);
+            dst[RIDX(i, j+18, dim)] = avg(dim, i, j+18, src);
+            dst[RIDX(i, j+19, dim)] = avg(dim, i, j+19, src);
+            dst[RIDX(i, j+20, dim)] = avg(dim, i, j+20, src);
+            dst[RIDX(i, j+21, dim)] = avg(dim, i, j+21, src);
+            dst[RIDX(i, j+22, dim)] = avg(dim, i, j+22, src);
+            dst[RIDX(i, j+23, dim)] = avg(dim, i, j+23, src);
+            dst[RIDX(i, j+24, dim)] = avg(dim, i, j+24, src);
+            dst[RIDX(i, j+25, dim)] = avg(dim, i, j+25, src);
+            dst[RIDX(i, j+26, dim)] = avg(dim, i, j+26, src);
+            dst[RIDX(i, j+27, dim)] = avg(dim, i, j+27, src);
+            dst[RIDX(i, j+28, dim)] = avg(dim, i, j+28, src);
+            dst[RIDX(i, j+29, dim)] = avg(dim, i, j+29, src);
+            dst[RIDX(i, j+30, dim)] = avg(dim, i, j+30, src);
+            dst[RIDX(i, j+31, dim)] = avg(dim, i, j+31, src);
+        }
+}
+
 /********************************************************************* 
  * register_smooth_functions - Register all of your different versions
  *     of the smooth kernel with the driver by calling the
@@ -360,5 +435,7 @@ void register_smooth_functions() {
     add_smooth_function(&smooth, smooth_descr);
     add_smooth_function(&naive_smooth, naive_smooth_descr);
     add_smooth_function(&smooth1, smooth_descr1);
+    add_smooth_function(&smooth2, smooth_descr2);
+    add_smooth_function(&smooth3, smooth_descr3);
     /* ... Register additional test functions here */
 }
