@@ -1035,16 +1035,16 @@ Disassembly of section .text:
  8048bdb:	89 04 24             	mov    %eax,(%esp)
  8048bde:	e8 8d fc ff ff       	call   8048870 <__isoc99_sscanf@plt>
  8048be3:	83 f8 01             	cmp    $0x1,%eax
- 8048be6:	7f 05                	jg     8048bed <phase_3+0x31>
+ 8048be6:	7f 05                	jg     8048bed <phase_3+0x31> # a[0] > 1
  8048be8:	e8 09 05 00 00       	call   80490f6 <explode_bomb>
- 8048bed:	83 7c 24 18 07       	cmpl   $0x7,0x18(%esp)
+ 8048bed:	83 7c 24 18 07       	cmpl   $0x7,0x18(%esp) # a[0] < 7
  8048bf2:	77 66                	ja     8048c5a <phase_3+0x9e>
  8048bf4:	8b 44 24 18          	mov    0x18(%esp),%eax
- 8048bf8:	ff 24 85 20 a2 04 08 	jmp    *0x804a220(,%eax,4)
+ 8048bf8:	ff 24 85 20 a2 04 08 	jmp    *0x804a220(,%eax,4) # 无条件跳转，以eax的值作为跳转索引
  8048bff:	b8 00 00 00 00       	mov    $0x0,%eax
  8048c04:	eb 05                	jmp    8048c0b <phase_3+0x4f>
- 8048c06:	b8 19 03 00 00       	mov    $0x319,%eax
- 8048c0b:	2d 8a 00 00 00       	sub    $0x8a,%eax
+ 8048c06:	b8 19 03 00 00       	mov    $0x319,%eax 
+ 8048c0b:	2d 8a 00 00 00       	sub    $0x8a,%eax 
  8048c10:	eb 05                	jmp    8048c17 <phase_3+0x5b>
  8048c12:	b8 00 00 00 00       	mov    $0x0,%eax
  8048c17:	05 37 01 00 00       	add    $0x137,%eax
@@ -1084,9 +1084,9 @@ Disassembly of section .text:
  8048c91:	89 f1                	mov    %esi,%ecx
  8048c93:	29 d1                	sub    %edx,%ecx
  8048c95:	89 cb                	mov    %ecx,%ebx
- 8048c97:	c1 eb 1f             	shr    $0x1f,%ebx
+ 8048c97:	c1 eb 1f             	shr    $0x1f,%ebx # eax += eax >> 0x1f
  8048c9a:	01 d9                	add    %ebx,%ecx
- 8048c9c:	d1 f9                	sar    %ecx
+ 8048c9c:	d1 f9                	sar    %ecx       # rax /= 2
  8048c9e:	8d 1c 11             	lea    (%ecx,%edx,1),%ebx
  8048ca1:	39 c3                	cmp    %eax,%ebx
  8048ca3:	7e 17                	jle    8048cbc <func4+0x42>
@@ -1113,16 +1113,16 @@ Disassembly of section .text:
 
 08048ce3 <phase_4>:
  8048ce3:	83 ec 2c             	sub    $0x2c,%esp
- 8048ce6:	8d 44 24 1c          	lea    0x1c(%esp),%eax
+ 8048ce6:	8d 44 24 1c          	lea    0x1c(%esp),%eax # 第二个参数
  8048cea:	89 44 24 0c          	mov    %eax,0xc(%esp)
- 8048cee:	8d 44 24 18          	lea    0x18(%esp),%eax
+ 8048cee:	8d 44 24 18          	lea    0x18(%esp),%eax # 第一个参数
  8048cf2:	89 44 24 08          	mov    %eax,0x8(%esp)
  8048cf6:	c7 44 24 04 e3 a3 04 	movl   $0x804a3e3,0x4(%esp)
  8048cfd:	08 
  8048cfe:	8b 44 24 30          	mov    0x30(%esp),%eax
  8048d02:	89 04 24             	mov    %eax,(%esp)
  8048d05:	e8 66 fb ff ff       	call   8048870 <__isoc99_sscanf@plt>
- 8048d0a:	83 f8 02             	cmp    $0x2,%eax
+ 8048d0a:	83 f8 02             	cmp    $0x2,%eax  # 输入的数量为2
  8048d0d:	75 0d                	jne    8048d1c <phase_4+0x39>
  8048d0f:	8b 44 24 18          	mov    0x18(%esp),%eax
  8048d13:	85 c0                	test   %eax,%eax
@@ -1137,7 +1137,7 @@ Disassembly of section .text:
  8048d31:	8b 44 24 18          	mov    0x18(%esp),%eax
  8048d35:	89 04 24             	mov    %eax,(%esp)
  8048d38:	e8 3d ff ff ff       	call   8048c7a <func4>
- 8048d3d:	83 f8 0b             	cmp    $0xb,%eax
+ 8048d3d:	83 f8 0b             	cmp    $0xb,%eax   # 第二个参数为11，否则爆炸
  8048d40:	75 07                	jne    8048d49 <phase_4+0x66>
  8048d42:	83 7c 24 1c 0b       	cmpl   $0xb,0x1c(%esp)
  8048d47:	74 05                	je     8048d4e <phase_4+0x6b>
@@ -1170,6 +1170,7 @@ Disassembly of section .text:
  8048d9a:	c3                   	ret    
 
 08048d9b <phase_6>:
+# part1
  8048d9b:	56                   	push   %esi
  8048d9c:	53                   	push   %ebx
  8048d9d:	83 ec 44             	sub    $0x44,%esp
@@ -1180,48 +1181,51 @@ Disassembly of section .text:
  8048daf:	e8 77 04 00 00       	call   804922b <read_six_numbers>
  8048db4:	be 00 00 00 00       	mov    $0x0,%esi
  8048db9:	8b 44 b4 10          	mov    0x10(%esp,%esi,4),%eax # a[i]
- 8048dbd:	83 e8 01             	sub    $0x1,%eax # eax - 1
- 8048dc0:	83 f8 05             	cmp    $0x5,%eax # eax:[0,5]
+ 8048dbd:	83 e8 01             	sub    $0x1,%eax 
+ 8048dc0:	83 f8 05             	cmp    $0x5,%eax # 六个数字在1~6之间
  8048dc3:	76 05                	jbe    8048dca <phase_6+0x2f>
  8048dc5:	e8 2c 03 00 00       	call   80490f6 <explode_bomb>
  8048dca:	83 c6 01             	add    $0x1,%esi
  8048dcd:	83 fe 06             	cmp    $0x6,%esi
- 8048dd0:	74 1b                	je     8048ded <phase_6+0x52>
+ 8048dd0:	74 1b                	je     8048ded <phase_6+0x52> # 循环到6步跳出循环
  8048dd2:	89 f3                	mov    %esi,%ebx
- 8048dd4:	8b 44 9c 10          	mov    0x10(%esp,%ebx,4),%eax
- 8048dd8:	39 44 b4 0c          	cmp    %eax,0xc(%esp,%esi,4)
- 8048ddc:	75 05                	jne    8048de3 <phase_6+0x48>
+ 8048dd4:	8b 44 9c 10          	mov    0x10(%esp,%ebx,4),%eax # a[i]
+ 8048dd8:	39 44 b4 0c          	cmp    %eax,0xc(%esp,%esi,4) # a[i]对比a[i+1]
+ 8048ddc:	75 05                	jne    8048de3 <phase_6+0x48> # 不同跳走
  8048dde:	e8 13 03 00 00       	call   80490f6 <explode_bomb>
  8048de3:	83 c3 01             	add    $0x1,%ebx
  8048de6:	83 fb 05             	cmp    $0x5,%ebx
- 8048de9:	7e e9                	jle    8048dd4 <phase_6+0x39>
- 8048deb:	eb cc                	jmp    8048db9 <phase_6+0x1e>
- 8048ded:	8d 44 24 10          	lea    0x10(%esp),%eax
- 8048df1:	8d 5c 24 28          	lea    0x28(%esp),%ebx
+ 8048de9:	7e e9                	jle    8048dd4 <phase_6+0x39> # 构成循环
+ 8048deb:	eb cc                	jmp    8048db9 <phase_6+0x1e> # 大循环
+ # part2
+ 8048ded:	8d 44 24 10          	lea    0x10(%esp),%eax # a[0]
+ 8048df1:	8d 5c 24 28          	lea    0x28(%esp),%ebx # 边界a[6]
  8048df5:	b9 07 00 00 00       	mov    $0x7,%ecx
  8048dfa:	89 ca                	mov    %ecx,%edx
- 8048dfc:	2b 10                	sub    (%eax),%edx
- 8048dfe:	89 10                	mov    %edx,(%eax)
- 8048e00:	83 c0 04             	add    $0x4,%eax
+ 8048dfc:	2b 10                	sub    (%eax),%edx # 7-a[0]
+ 8048dfe:	89 10                	mov    %edx,(%eax) # 覆盖a[0]的值
+ 8048e00:	83 c0 04             	add    $0x4,%eax # 指针+1
  8048e03:	39 d8                	cmp    %ebx,%eax
- 8048e05:	75 f3                	jne    8048dfa <phase_6+0x5f>
+ 8048e05:	75 f3                	jne    8048dfa <phase_6+0x5f> # 构成循环
+ # part3
  8048e07:	bb 00 00 00 00       	mov    $0x0,%ebx
  8048e0c:	eb 16                	jmp    8048e24 <phase_6+0x89>
  8048e0e:	8b 52 08             	mov    0x8(%edx),%edx
  8048e11:	83 c0 01             	add    $0x1,%eax
  8048e14:	39 c8                	cmp    %ecx,%eax
- 8048e16:	75 f6                	jne    8048e0e <phase_6+0x73>
+ 8048e16:	75 f6                	jne    8048e0e <phase_6+0x73> # 小循环
  8048e18:	89 54 b4 28          	mov    %edx,0x28(%esp,%esi,4)
  8048e1c:	83 c3 01             	add    $0x1,%ebx
  8048e1f:	83 fb 06             	cmp    $0x6,%ebx
  8048e22:	74 17                	je     8048e3b <phase_6+0xa0>
  8048e24:	89 de                	mov    %ebx,%esi
- 8048e26:	8b 4c 9c 10          	mov    0x10(%esp,%ebx,4),%ecx
+ 8048e26:	8b 4c 9c 10          	mov    0x10(%esp,%ebx,4),%ecx # a[i]
  8048e2a:	b8 01 00 00 00       	mov    $0x1,%eax
  8048e2f:	ba 3c c1 04 08       	mov    $0x804c13c,%edx
  8048e34:	83 f9 01             	cmp    $0x1,%ecx
  8048e37:	7f d5                	jg     8048e0e <phase_6+0x73>
  8048e39:	eb dd                	jmp    8048e18 <phase_6+0x7d>
+ # part4
  8048e3b:	8b 5c 24 28          	mov    0x28(%esp),%ebx
  8048e3f:	8b 44 24 2c          	mov    0x2c(%esp),%eax
  8048e43:	89 43 08             	mov    %eax,0x8(%ebx)
@@ -1234,11 +1238,12 @@ Disassembly of section .text:
  8048e5b:	8b 44 24 3c          	mov    0x3c(%esp),%eax
  8048e5f:	89 42 08             	mov    %eax,0x8(%edx)
  8048e62:	c7 40 08 00 00 00 00 	movl   $0x0,0x8(%eax)
+ # part5
  8048e69:	be 05 00 00 00       	mov    $0x5,%esi
- 8048e6e:	8b 43 08             	mov    0x8(%ebx),%eax
+ 8048e6e:	8b 43 08             	mov    0x8(%ebx),%eax # 下一个元素的指针
  8048e71:	8b 10                	mov    (%eax),%edx
- 8048e73:	39 13                	cmp    %edx,(%ebx)
- 8048e75:	7d 05                	jge    8048e7c <phase_6+0xe1>
+ 8048e73:	39 13                	cmp    %edx,(%ebx) # 前-后
+ 8048e75:	7d 05                	jge    8048e7c <phase_6+0xe1> # 前>=后，递减
  8048e77:	e8 7a 02 00 00       	call   80490f6 <explode_bomb>
  8048e7c:	8b 5b 08             	mov    0x8(%ebx),%ebx
  8048e7f:	83 ee 01             	sub    $0x1,%esi
