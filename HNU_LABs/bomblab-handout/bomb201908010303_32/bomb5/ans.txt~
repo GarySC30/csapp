@@ -2,3 +2,12 @@ When a problem comes along, you must zip it!
 1 2 4 8 16 32
 1 -570
 1 11
+
+
+
+
+
+
+b *0x8048d87
+b *0x8048d8c
+b *0x8048d91
