@@ -984,14 +984,14 @@ Disassembly of section .text:
  8048b4f:	90                   	nop
 
 08048b50 <phase_1>:
- 8048b50:	83 ec 1c             	sub    $0x1c,%esp
- 8048b53:	c7 44 24 04 c4 a1 04 	movl   $0x804a1c4,0x4(%esp)
+ 8048b50:	83 ec 1c             	sub    $0x1c,%esp # 开辟空间
+ 8048b53:	c7 44 24 04 c4 a1 04 	movl   $0x804a1c4,0x4(%esp)   # 将地址内容给esp+0x4
  8048b5a:	08 
  8048b5b:	8b 44 24 20          	mov    0x20(%esp),%eax
  8048b5f:	89 04 24             	mov    %eax,(%esp)
- 8048b62:	e8 7d 04 00 00       	call   8048fe4 <strings_not_equal>
+ 8048b62:	e8 7d 04 00 00       	call   8048fe4 <strings_not_equal> # 比较字符串是否相同
  8048b67:	85 c0                	test   %eax,%eax
- 8048b69:	74 05                	je     8048b70 <phase_1+0x20>
+ 8048b69:	74 05                	je     8048b70 <phase_1+0x20> # 相同则跳转，完成本phase
  8048b6b:	e8 86 05 00 00       	call   80490f6 <explode_bomb>
  8048b70:	83 c4 1c             	add    $0x1c,%esp
  8048b73:	c3                   	ret    
@@ -999,25 +999,25 @@ Disassembly of section .text:
 08048b74 <phase_2>:
  8048b74:	56                   	push   %esi
  8048b75:	53                   	push   %ebx
- 8048b76:	83 ec 34             	sub    $0x34,%esp
+ 8048b76:	83 ec 34             	sub    $0x34,%esp # 开空间
  8048b79:	8d 44 24 18          	lea    0x18(%esp),%eax
  8048b7d:	89 44 24 04          	mov    %eax,0x4(%esp)
  8048b81:	8b 44 24 40          	mov    0x40(%esp),%eax
  8048b85:	89 04 24             	mov    %eax,(%esp)
- 8048b88:	e8 9e 06 00 00       	call   804922b <read_six_numbers>
+ 8048b88:	e8 9e 06 00 00       	call   804922b <read_six_numbers> # 调用函数，名字可以猜到是读六个数
  8048b8d:	83 7c 24 18 01       	cmpl   $0x1,0x18(%esp)
  8048b92:	74 05                	je     8048b99 <phase_2+0x25>
  8048b94:	e8 5d 05 00 00       	call   80490f6 <explode_bomb>
  8048b99:	8d 5c 24 1c          	lea    0x1c(%esp),%ebx
  8048b9d:	8d 74 24 30          	lea    0x30(%esp),%esi
  8048ba1:	8b 43 fc             	mov    -0x4(%ebx),%eax
- 8048ba4:	01 c0                	add    %eax,%eax
+ 8048ba4:	01 c0                	add    %eax,%eax # 判断是否为2倍关系
  8048ba6:	39 03                	cmp    %eax,(%ebx)
  8048ba8:	74 05                	je     8048baf <phase_2+0x3b>
  8048baa:	e8 47 05 00 00       	call   80490f6 <explode_bomb>
  8048baf:	83 c3 04             	add    $0x4,%ebx
  8048bb2:	39 f3                	cmp    %esi,%ebx
- 8048bb4:	75 eb                	jne    8048ba1 <phase_2+0x2d>
+ 8048bb4:	75 eb                	jne    8048ba1 <phase_2+0x2d> # 循环
  8048bb6:	83 c4 34             	add    $0x34,%esp
  8048bb9:	5b                   	pop    %ebx
  8048bba:	5e                   	pop    %esi
@@ -1029,9 +1029,9 @@ Disassembly of section .text:
  8048bc3:	89 44 24 0c          	mov    %eax,0xc(%esp)
  8048bc7:	8d 44 24 18          	lea    0x18(%esp),%eax
  8048bcb:	89 44 24 08          	mov    %eax,0x8(%esp)
- 8048bcf:	c7 44 24 04 e3 a3 04 	movl   $0x804a3e3,0x4(%esp)
+ 8048bcf:	c7 44 24 04 e3 a3 04 	movl   $0x804a3e3,0x4(%esp)  # 传地址
  8048bd6:	08 
- 8048bd7:	8b 44 24 30          	mov    0x30(%esp),%eax
+ 8048bd7:	8b 44 24 30          	mov    0x30(%esp),%eax 
  8048bdb:	89 04 24             	mov    %eax,(%esp)
  8048bde:	e8 8d fc ff ff       	call   8048870 <__isoc99_sscanf@plt>
  8048be3:	83 f8 01             	cmp    $0x1,%eax
@@ -1174,14 +1174,14 @@ Disassembly of section .text:
  8048d9c:	53                   	push   %ebx
  8048d9d:	83 ec 44             	sub    $0x44,%esp
  8048da0:	8d 44 24 10          	lea    0x10(%esp),%eax
- 8048da4:	89 44 24 04          	mov    %eax,0x4(%esp)
+ 8048da4:	89 44 24 04          	mov    %eax,0x4(%esp)  # i
  8048da8:	8b 44 24 50          	mov    0x50(%esp),%eax
  8048dac:	89 04 24             	mov    %eax,(%esp)
  8048daf:	e8 77 04 00 00       	call   804922b <read_six_numbers>
  8048db4:	be 00 00 00 00       	mov    $0x0,%esi
- 8048db9:	8b 44 b4 10          	mov    0x10(%esp,%esi,4),%eax
- 8048dbd:	83 e8 01             	sub    $0x1,%eax
- 8048dc0:	83 f8 05             	cmp    $0x5,%eax
+ 8048db9:	8b 44 b4 10          	mov    0x10(%esp,%esi,4),%eax # a[i]
+ 8048dbd:	83 e8 01             	sub    $0x1,%eax # eax - 1
+ 8048dc0:	83 f8 05             	cmp    $0x5,%eax # eax:[0,5]
  8048dc3:	76 05                	jbe    8048dca <phase_6+0x2f>
  8048dc5:	e8 2c 03 00 00       	call   80490f6 <explode_bomb>
  8048dca:	83 c6 01             	add    $0x1,%esi
